@@ -1,0 +1,66 @@
+﻿@model Minesweeper.Services.Game.GameService
+
+@{
+    ViewBag.Title = "Minsweeper - Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="stopwatch">
+    <span>
+        <b>Running Time: </b>
+        <span id="sw-time">00:00:00</span>
+    </span>
+    <span>
+        <b>Turn: </b>
+        <span id="turn-counter">0</span>
+    </span>
+    <script>
+        console.log("Stopwatch started");
+    </script>
+</div>
+<div id="gameBoard">
+    @Html.Partial("~/Views/Shared/_GameBoard.cshtml")
+</div>
+<div class="game-menu">
+    <div>
+        @using (Html.BeginForm("ResetGame", "Game"))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit">
+                Reset Board
+            </button>
+   <script>
+       console.log("Reset button clicked, new game started");
+   </script>
+        }
+    </div>
+    <div>
+        <button type="submit" onclick="saveGameFunction()">Save</button>
+    </div>
+    <div>
+        <button type="submit" onclick="loadGameFunction()">Load</button>
+    </div>
+    <div>
+        @using (Html.BeginForm("Index", "Home"))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit">
+                Main Menu
+            </button>
+            <script>
+                console.log("New game started!");
+            </script>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/stopWatch.js"></script>
+<script>
+    console.log();
+    // Variable to count game turns
+    var turns = 0;
+    // Variable to track if high score list was updated
+    var Updated = false;
+    // Variable to track if game was loaded
+    var loadUpdated = false;
+</script>

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Minesweeper - Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Game", "Game", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    <div class="game-board-options">
+        <div class="game-board-option">
+            <div class="game-board-options-label">
+                Please Choose a Board Size
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("size", 5, true, new { onclick = "sizeRadioOnChange();" }) Small (5x5)
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("size", 10, false, new { onclick = "sizeRadioOnChange();" }) Medium (10x10)
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("size", 16, false, new { onclick = "sizeRadioOnChange();" }) Large (16x16)
+            </div>
+          @*  <div class="game-board-options-option">
+                @Html.RadioButton("size", 1, false, new { onclick = "otherSizeRadioOnChange();" }) Other
+                @Html.TextBox("sizeAdjuster", "", new { onchange = "otherSizeOnChange();", disabled = true })
+            </div>*@
+        </div>
+        <div class="game-board-option">
+            <div class="game-board-options-label">
+                Please Choose a Difficulty
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("difficulty", 1, true) Easy
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("difficulty", 2) Normal
+            </div>
+            <div class="game-board-options-option">
+                @Html.RadioButton("difficulty", 3) Hard
+            </div>
+        </div>
+        <div>
+            <button type="submit">Play Game</button>
+        </div>
+    </div>
+}
+
+<script>
+    console.log("Directing user to main page");
+    function otherSizeRadioOnChange() {
+        $('#sizeAdjuster').prop('disabled', false);
+    }
+
+    function sizeRadioOnChange() {
+        $('#sizeAdjuster').prop('disabled', true);
+        $('#sizeAdjuster').val('');
+    }
+
+    function otherSizeOnChange() {
+        let val = Number($('#sizeAdjuster').val());
+        if (val < 5) {
+            val = 5;
+        } else if (val > 32) {
+            val = 32;
+        }
+        $('#size:checked').val(val);
+    }
+</script>

@@ -1,0 +1,241 @@
+﻿@*Tyler Wiggins and Vrijesh Patel
+    This is our own work
+    Minesweeper.IO project for CST-247*@
+@model Minesweeper.Services.Game.GameService
+
+<div class="game">
+    @*Makes a game board and handles all the cell clicks*@
+    @using (Ajax.BeginForm("OnLeftMouseClick", "Game", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "gameBoard" }))
+    {
+        <table class="game-board">
+            @for (int row = 0; row < Model.gameBoard.Size; row++)
+            {
+                <tr class="game-board-row">
+                    @for (int col = 0; col < Model.gameBoard.Size; col++)
+                    {
+                        <td class="game-board-cell">
+                            @if (Model.gameBoard.Grid[row, col].Visited && !Model.gameBoard.Grid[row, col].Live)
+                            {
+
+                                <script>
+                                console.log("Button in row " +@row +" and column " + @col+" was clicked!");
+                                </script>
+                                if (@Model.gameBoard.Grid[row, col].LiveNeighbors > 0)
+                                {
+                                    @Model.gameBoard.Grid[row, col].LiveNeighbors
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            else if (Model.gameOver)
+                            {
+                                @*HandleErrorAttribute the show bomb functionality when the game is over*@
+                                if (@Model.gameBoard.Grid[row, col].Live)
+                                {
+                                    @*  Bonk.jpg
+                                        Bomb.png *@
+                                    <img src="~/Images/Bomb.png" />
+                                    <script>
+                                        console.log("showing all the bombs");
+                                    </script>
+                                }
+                                else if (@Model.gameBoard.Grid[row, col].LiveNeighbors > 0)
+                                {
+                                    @Model.gameBoard.Grid[row, col].LiveNeighbors
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            else
+                            {
+                                {
+                                    string val = row + "|" + col;
+                                    <button class="game-button" type="submit" name="mine" value=@val>
+                                        @if (Model.gameBoard.Grid[row, col].IsFlagged)
+                                        {
+                                            <img src="~/Images/Flag.png" />
+
+                                        }
+                                        else
+                                        {
+                                            @* Tile.jpg
+                                                dogeMine.png*@
+                                            <img src="~/Images/Tile.jpg" />
+                                        }
+                                    </button>
+                                }
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <span>Congradulations @Session["UserInfo"].ToString() YOU WON!! With a time of: </span><span id="user-time"></span>
+                <hr />
+                @*Show an ordered list of players high scores*@
+                <h4 class="align-content-center" id="modal-list">High Scores</h4>
+                <ol>
+                    @foreach (var player in Model.highScoreList)
+                    {
+                        <li>@player.PlayerInitials with a time of @player.TimeSpanString</li>
+                    }
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Variables for checking game status
+    var GameOver = "@Html.Raw(Model.gameOver)";
+    var IsWinner = "@Html.Raw(Model.isWinner)";
+    var timeUpdate = @Html.Raw(Model.Timer);
+    var turnUpdate = @Html.Raw(Model.Turns);
+
+    // Execute to save game
+@*    function saveGameFunction() {
+        var elapsedTime = sw.now;
+        $.ajax({
+                cache: false,
+                url: "@Url.Action("OnSave", "Game")",
+                data:
+                {
+                    time: elapsedTime,
+                    turnsCount: turns
+                },
+                success: function (data) {
+                    $("#gameBoard").html(data);
+                    alert("Game Saved");
+                },
+                type: "POST"
+        });
+        console.log("Player saved the game")
+    }*@
+
+    // Execute to load game
+@*    function loadGameFunction() {
+        sw.stop();
+        $.ajax({
+                cache: false,
+                url: "@Url.Action("OnLoad", "Game")",
+                success: function (data) {
+                    $("#gameBoard").html(data);
+                    alert("Game Loaded");
+
+                },
+                type: "POST"
+        });
+    }*@
+
+    // Execute when document ready
+    $(document).ready(function() {
+       @* if (GameOver == "True" && IsWinner == "True" && !Updated) {
+             // Stop the timer
+            sw.stop();
+            // Get the elapsed time
+            var elapsedTime = $("#sw-time").html(); 
+            // Set boolean to true for updating the score list
+            Updated = true; 
+            // Add the players results to highscore list and refresh the page
+            $.ajax({
+                cache: false,
+                url: "@Url.Action("PlayerStats", "Game")",
+                data:
+                {
+                    time: elapsedTime
+                },
+                success: function (data) {
+                    $("#gameBoard").html(data);
+                },
+                type: "POST"
+            });
+        } else*@ 
+        if (GameOver == "True" && IsWinner == "True" && Updated) {
+             // Get elapsed time
+            var elapsedTime = $("#sw-time").html();
+            // Update Modal time
+            $("#user-time").html(elapsedTime); 
+            // Change title of modal
+            $("#modal-title").html("YOU WIN! :)"); 
+             // Toggle Modal
+            $("#myModal").modal();
+            console.log("Player won the game");
+        } else if (GameOver == "True") {
+            sw.stop(); // Stop timer
+            // Change the modal title
+            $("#modal-title").html("YOU LOSE :("); 
+             // Change the modal body
+            $("#modal-body").html("Better luck next time!");
+            // Toggle the modal
+            $("#myModal").modal(); 
+            console.log("Player lost the game");
+        }
+
+        // Disable right click menu
+        $(document).contextmenu(function() {
+            return false;
+        });
+
+        // Handle mouse click event
+        $('.game-button').mousedown(function (event) {
+            // If first click of the game, start timer
+            if (turns == 0) {
+                sw.start();
+            };
+            // Increment turn counter
+            turns++;
+            // Check for right mouse click
+            if (event.which == 3) {
+                // Send ajax message for right mouse click to GameController
+                $.ajax({
+                        cache: false,
+                        url: "@Url.Action("OnRightMouseClick", "Game")",
+                        data:
+                        {
+
+                            mine: this.getAttribute("value")
+                        },
+                        success: function (data)
+                        {
+
+                        $("#gameBoard").html(data);
+                        },
+                    type: "POST"
+
+                });
+
+            }
+            $("#turn-counter").html(turns.toString()); // Update turn counter
+
+        });
+
+        // Check if game was loaded and update board
+        if (turnUpdate > 0 && !loadUpdated) {
+            sw.now = timeUpdate; // Update time
+            sw.start();
+            turns = turnUpdate; // Update turns
+             // Update turn counter
+            $("#turn-counter").html(turns.toString());
+            loadUpdated = true;
+        }
+    });
+</script>

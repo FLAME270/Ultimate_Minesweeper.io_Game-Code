@@ -1,0 +1,20 @@
+﻿<div class="menu clear">
+    @if (Session["login"] != null)
+    {
+        <span class="menu-item">
+            @Html.ActionLink("Play Minesweeper.IO", "", "Home")
+        </span>
+        <span class="menu-item">
+            @Html.ActionLink("Logout", "Logout", "Login")
+        </span>
+    }
+    else
+    {
+        <span class="menu-item">
+            @Html.ActionLink("Login", "", "Login")
+        </span>
+        <span class="menu-item">
+            @Html.ActionLink("Registration", "", "Registration")
+        </span>
+    }
+</div>
