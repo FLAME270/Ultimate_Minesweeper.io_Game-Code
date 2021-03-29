@@ -1,6 +1,7 @@
 ﻿/*Tyler Wiggins and Vrijesh Patel
     This is our own work
-    Minesweeper.IO project for CST-247*/
+    Minesweeper.IO project for CST-247
+Some code used from documentation at: https://www.newtonsoft.com/json/help/html/SerializingJSON.htm */
 
 using Minesweeper.Models;
 using Minesweeper.Services.Data;
@@ -151,7 +152,7 @@ namespace Minesweeper.Services.Game
             Timer = 0;
             Turns = 0;
         }
-        //////////Coming Soon//////////
+    
         /// <summary>
         ///
         // Method for adding player's score results to the database table. score = Takes string of time in "00:00:00" format

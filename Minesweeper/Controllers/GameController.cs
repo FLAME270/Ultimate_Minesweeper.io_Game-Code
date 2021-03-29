@@ -69,7 +69,7 @@ namespace Minesweeper.Controllers
             return View("Game", gameService);
         }
 
-        //////Coming Soon//////
+      
         // Method for adding the players score to a highScore table
         public ActionResult PlayerStats(string time)
         {

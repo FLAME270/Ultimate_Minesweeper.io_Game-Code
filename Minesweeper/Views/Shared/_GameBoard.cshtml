@@ -89,14 +89,22 @@
             <div class="modal-body" id="modal-body">
                 <span>Congradulations @Session["UserInfo"].ToString() YOU WON!! With a time of: </span><span id="user-time"></span>
                 <hr />
+                <div>
+                    <h2></h2>
+
+                </div>
                 @*Show an ordered list of players high scores*@
-                <h4 class="align-content-center" id="modal-list">High Scores</h4>
-                <ol>
-                    @foreach (var player in Model.highScoreList)
-                    {
-                        <li>@player.PlayerInitials with a time of @player.TimeSpanString</li>
-                    }
-                </ol>
+            <h4 class="align-content-center" id="modal-list">Top 5 High Scores: </h4>
+
+                <div>
+                    <ol>
+                        @foreach (var player in Model.highScoreList)
+                        {
+
+                            <li>@player.PlayerInitials with a time of @player.TimeSpanString</li>
+                        }
+                    </ol>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -112,7 +120,7 @@
     var turnUpdate = @Html.Raw(Model.Turns);
 
     // Execute to save game
-@*    function saveGameFunction() {
+    function saveGameFunction() {
         var elapsedTime = sw.now;
         $.ajax({
                 cache: false,
@@ -129,10 +137,10 @@
                 type: "POST"
         });
         console.log("Player saved the game")
-    }*@
+    }
 
     // Execute to load game
-@*    function loadGameFunction() {
+   function loadGameFunction() {
         sw.stop();
         $.ajax({
                 cache: false,
@@ -144,11 +152,11 @@
                 },
                 type: "POST"
         });
-    }*@
+    }
 
     // Execute when document ready
     $(document).ready(function() {
-       @* if (GameOver == "True" && IsWinner == "True" && !Updated) {
+        if (GameOver == "True" && IsWinner == "True" && !Updated) {
              // Stop the timer
             sw.stop();
             // Get the elapsed time
@@ -168,8 +176,8 @@
                 },
                 type: "POST"
             });
-        } else*@ 
-        if (GameOver == "True" && IsWinner == "True" && Updated) {
+        }
+        else if (GameOver == "True" && IsWinner == "True" && Updated) {
              // Get elapsed time
             var elapsedTime = $("#sw-time").html();
             // Update Modal time

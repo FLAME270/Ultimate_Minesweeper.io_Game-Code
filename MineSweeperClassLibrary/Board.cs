@@ -27,9 +27,9 @@ namespace MineSweeperClassLibrary
 
             // sets the number of bombs bassed off of the difficulty
             //CHANGE THE NUMBERS BELOW TO MAKE THE GAME EASIER/HARDER
-            if (difficulty == 1) { Difficulty = .16; }
-            if (difficulty == 2) { Difficulty = .18; }
-            if (difficulty == 3) { Difficulty = .25; }
+            if (difficulty == 1) { Difficulty = .10; }
+            if (difficulty == 2) { Difficulty = .14; }
+            if (difficulty == 3) { Difficulty = .16; }
 
             //makes a new array of cells with row's and col's 
             for (int row = 0; row < Size; row++)
