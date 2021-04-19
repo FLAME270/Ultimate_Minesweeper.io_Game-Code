@@ -57,7 +57,7 @@
                                     <button class="game-button" type="submit" name="mine" value=@val>
                                         @if (Model.gameBoard.Grid[row, col].IsFlagged)
                                         {
-                                            <img src="~/Images/Flag.png" />
+                                            <img src="~/Images/dogeMine.png" />
 
                                         }
                                         else
@@ -94,7 +94,7 @@
 
                 </div>
                 @*Show an ordered list of players high scores*@
-            <h4 class="align-content-center" id="modal-list">Top 5 High Scores: </h4>
+            <h4 class="align-content-center" id="modal-list">Top 10 High Scores: </h4>
 
                 <div>
                     <ol>

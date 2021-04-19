@@ -3,11 +3,23 @@
     Minesweeper.IO project for CST-247
     This handles all of our Minesweepers websites css
 */
-
+/*#Back {
+    background: blue;*/ /* will apply color */
+/*}
+.Back {
+    background: blue;*/ /* will apply color */
+/*}
+NewCenter{
+    align-items:center;
+}
 body {
     padding: 0;
     margin: 0;
-}
+    background: blue;*/ /* will apply color */
+/*}
+form{
+    background-color: blue;
+}*/
 
 /*Sets the size of all the text areas*/
 input,
@@ -71,6 +83,12 @@ textarea {
         min-width: 50%;
         max-width: 60%;
         height: 2.4rem;
+    }
+   #Age{
+
+        align-items :center;
+
+
     }
 
 .text-danger {
